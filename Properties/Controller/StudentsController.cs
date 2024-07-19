@@ -121,7 +121,7 @@ public class StudentsController : ControllerBase
     }
     
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateStudent(int id, Student student)
+    public async Task<ActionResult> UpdateStudent(int id, UpdateStudentDTO student)
     {
         try
         {
@@ -170,7 +170,7 @@ public class StudentsController : ControllerBase
                 Message = "Error updating student",
                 Student = null
             };
-            return StatusCode(500, errorResponse); // Return 500 Internal Server Error
+            return StatusCode(500, errorResponse);
         }
     }
 
