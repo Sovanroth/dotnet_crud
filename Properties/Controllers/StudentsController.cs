@@ -1,32 +1,25 @@
 using Microsoft.AspNetCore.Mvc;
 using MyApi.Properties.Dtos;
-using MyApi.Properties.Model;
+using MyApi.Properties.Models;
 using MyApi.Properties.ResponseMessage;
 using MyApi.Properties.Service;
 
-namespace MyApi.Properties.Controller
+namespace MyApi.Properties.Controllers
 {
     [Route("/api/[controller]")]
     [ApiController]
-    public class StudentsController : ControllerBase
+    public class StudentsController(StudentService studentService) : ControllerBase
     {
-        private readonly StudentService _studentService;
-
-        public StudentsController(StudentService studentService)
-        {
-            _studentService = studentService;
-        }
-
         [HttpGet]
         public async Task<ActionResult<StudentResponse<IEnumerable<Student>>>> GetStudents()
         {
-            return await _studentService.GetAllStudents();
+            return await studentService.GetAllStudents();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<StudentResponse<IEnumerable<Student>>>> GetStudentById(int id)
         {
-            return await _studentService.GetStudentById(id);
+            return await studentService.GetStudentById(id);
         }
 
         [HttpPost]
@@ -37,19 +30,19 @@ namespace MyApi.Properties.Controller
                 return BadRequest(ModelState);
             }
 
-            return await _studentService.CreateStudent(student);
+            return await studentService.CreateStudent(student);
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<UpdateStudent>> UpdateStudent(int id, StudentDto studentDto)
         {
-            return await _studentService.UpdateStudent(id, studentDto);
+            return await studentService.UpdateStudent(id, studentDto);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<DeleteStudentResponse>> DeleteStudent(int id)
         {
-            return await _studentService.DeleteStudent(id);
+            return await studentService.DeleteStudent(id);
         }
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyApi.Properties.Data;
-using MyApi.Properties.Repository;
+using MyApi.Properties.Repositories;
+using MyApi.Properties.Repositories.RepositoryInterface;
 using MyApi.Properties.Service;
 
 var builder = WebApplication.CreateBuilder(args);

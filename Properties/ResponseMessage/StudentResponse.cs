@@ -1,4 +1,4 @@
-using MyApi.Properties.Model;
+using MyApi.Properties.Models;
 
 namespace MyApi.Properties.ResponseMessage;
 

@@ -1,33 +1,27 @@
 using MyApi.Properties.Dtos;
-using MyApi.Properties.Model;
-using MyApi.Properties.Repository;
+using MyApi.Properties.Models;
+using MyApi.Properties.Repositories.RepositoryInterface;
 using MyApi.Properties.ResponseMessage;
 
 namespace MyApi.Properties.Service
 {
-    public class StudentService
+    public class StudentService(IStudentRepository studentRepository)
     {
-        private readonly IStudentRepository _studentRepository;
-
-        public StudentService(IStudentRepository studentRepository)
-        {
-            _studentRepository = studentRepository;
-        }
-
         public async Task<StudentResponse<IEnumerable<Student>>> GetAllStudents()
         {
             try
             {
-                var students = await _studentRepository.GetAllStudents();
+                var students = await studentRepository.GetAllStudents();
                 return new StudentResponse<IEnumerable<Student>>
                 {
                     Error = false,
                     Message = "Get Successfully",
-                    Students = students
+                    Students = students!
                 };
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 return new StudentResponse<IEnumerable<Student>>
                 {
                     Error = true,
@@ -41,7 +35,7 @@ namespace MyApi.Properties.Service
         {
             try
             {
-                var student = await _studentRepository.GetStudentById(id);
+                var student = await studentRepository.GetStudentById(id);
                 if (student == null)
                 {
                     return new StudentResponse<IEnumerable<Student>>
@@ -61,6 +55,7 @@ namespace MyApi.Properties.Service
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 return new StudentResponse<IEnumerable<Student>>
                 {
                     Error = true,
@@ -74,7 +69,7 @@ namespace MyApi.Properties.Service
         {
             try
             {
-                var createdStudent = await _studentRepository.CreateStudent(student);
+                var createdStudent = await studentRepository.CreateStudent(student);
                 return new CreateStudent
                 {
                     Error = false,
@@ -84,6 +79,7 @@ namespace MyApi.Properties.Service
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 return new CreateStudent
                 {
                     Error = true,
@@ -97,7 +93,7 @@ namespace MyApi.Properties.Service
         {
             try
             {
-                var existingStudent = await _studentRepository.GetStudentById(id);
+                var existingStudent = await studentRepository.GetStudentById(id);
                 if (existingStudent == null)
                 {
                     return new UpdateStudent
@@ -123,7 +119,7 @@ namespace MyApi.Properties.Service
                     existingStudent.Email = studentDto.Email;
                 }
 
-                await _studentRepository.UpdateStudent(existingStudent);
+                await studentRepository.UpdateStudent(existingStudent);
 
                 return new UpdateStudent
                 {
@@ -134,6 +130,7 @@ namespace MyApi.Properties.Service
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 return new UpdateStudent
                 {
                     Error = true,
@@ -147,7 +144,7 @@ namespace MyApi.Properties.Service
         {
             try
             {
-                var student = await _studentRepository.GetStudentById(id);
+                var student = await studentRepository.GetStudentById(id);
                 if (student == null)
                 {
                     return new DeleteStudentResponse
@@ -158,7 +155,7 @@ namespace MyApi.Properties.Service
                     };
                 }
 
-                await _studentRepository.DeleteStudent(id);
+                await studentRepository.DeleteStudent(id);
 
                 return new DeleteStudentResponse
                 {
@@ -169,6 +166,7 @@ namespace MyApi.Properties.Service
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 return new DeleteStudentResponse
                 {
                     Error = true,

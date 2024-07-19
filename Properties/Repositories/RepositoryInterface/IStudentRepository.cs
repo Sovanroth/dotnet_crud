@@ -1,6 +1,6 @@
-using MyApi.Properties.Model;
+using MyApi.Properties.Models;
 
-namespace MyApi.Properties.Repository;
+namespace MyApi.Properties.Repositories.RepositoryInterface;
 
 public interface IStudentRepository
 {

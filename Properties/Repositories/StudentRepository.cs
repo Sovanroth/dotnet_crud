@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using MyApi.Properties.Data;
-using MyApi.Properties.Model;
+using MyApi.Properties.Models;
+using MyApi.Properties.Repositories.RepositoryInterface;
 
-namespace MyApi.Properties.Repository
+namespace MyApi.Properties.Repositories
 {
     public class StudentRepository : IStudentRepository
     {

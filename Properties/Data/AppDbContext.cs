@@ -1,12 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using MyApi.Properties.Model;
+using MyApi.Properties.Models;
 
 namespace MyApi.Properties.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
-    }
-    public DbSet<Student?> Students { get; set; }
+    public DbSet<Student> Students { get; set; }
 }
