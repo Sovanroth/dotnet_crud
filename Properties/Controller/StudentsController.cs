@@ -125,42 +125,55 @@ public class StudentsController : ControllerBase
     {
         try
         {
-
             var existingStudent = await _studentRepository.GetStudentById(id);
             if (existingStudent == null)
             {
-                var message = new UpdateStudent()
+                var response = new UpdateStudent()
                 {
-                    Error = false,
+                    Error = true,
                     Message = "Student not found",
-                    Student = null
+                    Student = null,
                 };
-                return NotFound(message);
+                return NotFound(response);
+            }
+            
+            if (!string.IsNullOrEmpty(student.Name))
+            {
+                existingStudent.Name = student.Name;
             }
 
-            await _studentRepository.UpdateStudent(student);
-
-            var response = new 
+            if (student.Age > 0)
             {
-                error = false,
-                message = "Student updated successfully",
-                students = new[] { new { student.Id, student.Name, student.Age, student.Email } }
-            };
+                existingStudent.Age = student.Age;
+            }
 
-            return Ok(response);
+            if (!string.IsNullOrEmpty(student.Email))
+            {
+                existingStudent.Email = student.Email;
+            }
+
+            await _studentRepository.UpdateStudent(existingStudent);
+            var successResponse = new UpdateStudent()
+            {
+                Error = false,
+                Message = "Student updated successfully",
+                Student = existingStudent
+            };
+            return Ok(successResponse);
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            var response = new 
+            var errorResponse = new UpdateStudent()
             {
-                error = true,
-                message = "Error updating student",
-                students = (object)null
+                Error = true,
+                Message = "Error updating student",
+                Student = null
             };
-            return StatusCode(500, response);
+            return StatusCode(500, errorResponse); // Return 500 Internal Server Error
         }
     }
+
 
     [HttpDelete("{id}")]
     public async Task<ActionResult<IEnumerable<Student>>> DeleteStudentData(int id)
