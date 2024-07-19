@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using MyApi.Properties.Dtos;
 using MyApi.Properties.Model;
 using MyApi.Properties.Repository;
-using MyApi.Properties.ResponseMssage;
+using MyApi.Properties.ResponseMessage;
 
 namespace MyApi.Properties.Controller;
 
@@ -95,7 +96,6 @@ public class StudentsController : ControllerBase
             {
                 return BadRequest(ModelState);
             }
-
             var createdStudent = await _studentRepository.CreateStudent(student);
 
             var response = new CreateStudent()
@@ -121,7 +121,7 @@ public class StudentsController : ControllerBase
     }
     
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateStudent(int id, UpdateStudentDTO student)
+    public async Task<ActionResult> UpdateStudent(int id, StudentDto student)
     {
         try
         {
